@@ -5,9 +5,10 @@ import mill.scalajslib.ScalaJSModule
 
 object Shared {
   val scalacOptions = Seq("-deprecation")
-  val scalaJSVersion = "1.13.0" //todo see javascript work
-  val scalaVersion = "3.2.2"
+  val scalaJSVersion = "1.16.0" //todo see javascript work
+  val scalaVersion = "3.3.3"
   val javaVersion = "17.0.6"
+  val munitVersion = "0.7.29"
 }
 
 object Graph extends ScalaJSModule {
@@ -15,13 +16,14 @@ object Graph extends ScalaJSModule {
 
   override def scalaJSVersion: T[String] = Shared.scalaJSVersion
   override def scalaVersion: T[String] = Shared.scalaVersion
-  def javaVersion = Shared.javaVersion
+  def javaVersion: String = Shared.javaVersion
+  def munitVersion: String = Shared.munitVersion
 
   override def scalacOptions: Target[Seq[String]] = Shared.scalacOptions
 
   object test extends Tests with TestModule.Munit {
     override def ivyDeps = Agg(
-      ivy"org.scalameta::munit::0.7.29"
+      ivy"""org.scalameta::munit::$munitVersion"""
     )
   }
 
