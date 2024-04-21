@@ -2,8 +2,10 @@ import mill._
 import scalalib._
 import mill.define.{Command, Target}
 import mill.scalajslib.ScalaJSModule
+import mill.scalalib.publish._
 
 object Shared {
+  val version = "0.3.0"
   val scalacOptions = Seq("-deprecation")
   val scalaJSVersion = "1.16.0" //todo see javascript work
   val scalaVersion = "3.3.3"
@@ -11,9 +13,10 @@ object Shared {
   val munitVersion = "0.7.29"
 }
 
-object Graph extends ScalaJSModule {
+object Graph extends ScalaJSModule with PublishModule {
   override def artifactName: T[String] = "Disentangle-Graph"
 
+  override def publishVersion: T[String] = Shared.version
   override def scalaJSVersion: T[String] = Shared.scalaJSVersion
   override def scalaVersion: T[String] = Shared.scalaVersion
   def javaVersion: String = Shared.javaVersion
@@ -34,6 +37,24 @@ object Graph extends ScalaJSModule {
     os.perms.set(millw, os.perms(millw) + java.nio.file.attribute.PosixFilePermission.OWNER_EXECUTE)
     target
   }
+
+  override def pomSettings: T[PomSettings] = PomSettings(
+    description = "Disentangle Graph",
+    organization = "net.walend.disentangle",
+    url = "https://github.com/dwalend/disentangle",
+    licenses = Seq(License.MIT),
+    versionControl = VersionControl.github("dwalend", "disentangle"),
+    developers = Seq(
+      Developer("dwalend", "David Walend", "https://github.com/dwalend")
+    )
+  )
+  /*
+  to publish - follow https://dev.to/awwsmm/publish-your-scala-project-to-maven-in-5-minutes-with-sonatype-326l
+
+  Then
+
+  ./millw mill.scalalib.PublishModule/publishAll Graph.publishArtifacts dwalend:MyPassword --gpgArgs --passphrase=MyPassphrase,--batch,--yes,-a,-b --release true
+   */
 }
 
 //todo move the rest of the tests to Munit

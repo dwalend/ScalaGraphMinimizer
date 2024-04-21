@@ -11,7 +11,8 @@ Further, the library provides support for computational stability. The same inpu
 
 The easiest way to include this project in yours is to add the jar files from sonatype's mvn repository.
 
-    libraryDependencies += "net.walend.disentangle" %% "graph" % "0.2.2" 
+    libraryDependencies += "net.walend.disentangle" %%% "Disentangle-Graph" % "0.3.0"
+
 
 ### The Latest Snapshot (When Available)
 
@@ -19,7 +20,7 @@ To get the latest snapshot in your build.sbt, add
 
     resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
-    libraryDependencies += "net.walend.disentangle" %% "graph" % "0.3.0-SNAPSHOT"
+    libraryDependencies += "net.walend.disentangle" %% "graph" % "0.4.0-SNAPSHOT"
 
 ### Clone the Code
 
@@ -54,7 +55,7 @@ I've used a profiler to quench hotspots where I could find ways to speed up algo
 
 ## Using Disentangle
 
-See the [scaladoc](http://dwalend.github.io/Disentangle/v0.2.1/#net.walend.disentangle.graph.package) and [examples](https://github.com/dwalend/Disentangle/tree/master/examples/src/main/scala/net/walend/disentangle/examples).
+See the [scaladoc](http://dwalend.github.io/Disentangle/v0.3.0/#net.walend.disentangle.graph.package) and [examples](https://github.com/dwalend/Disentangle/tree/master/examples/src/main/scala/net/walend/disentangle/examples).
 
 ### Using implicit methods on net.walend.graph._ graphs with [Pimped Algorithms](https://github.com/dwalend/Disentangle/blob/master/examples/src/main/scala/net/walend/disentangle/examples/BrandesImplicitsExample.scala)
 
@@ -281,11 +282,6 @@ The HeapOrdering is actually trickier to get right than the Semiring. The Heap n
 
 ## Roadmap for Future Work
 
-### Next Release 0.3, the seventh release
-
-* Build with mill
-* Update to latest Scala and Scala JS - That's Scala 3.2 !
-
 ### New Algorithms
 
 * More development of the clustering prototype
@@ -301,6 +297,11 @@ The HeapOrdering is actually trickier to get right than the Semiring. The Heap n
 * Concurrent Graph structure
 * Parallel queued graph minimization
 * Parallel A* variations
+
+## Changes in 0.3.0, the seventh release
+
+* Build with mill
+* Update to latest Scala and Scala JS - That's Scala 3.2 !
 
 ## Changes in 0.2.2, the sixth release
 
@@ -329,3 +330,4 @@ Disentangle carries the MIT license and is (c) David Walend 2013,2014,2015,2016
 
 Special thanks to Peter Empen for [scala-graph](http://www.scala-graph.org/), advice, code, and patience. And thanks to Aleksandar Prokopec for some answers about the [parallel collections](http://docs.scala-lang.org/overviews/parallel-collections/overview.html).
 
+[![Latest version](https://index.scala-lang.org/net.walend.disentangle/<repository>/<artifact>/latest.svg)](https://index.scala-lang.org/<organization>/<repository>/<artifact>)

@@ -4,7 +4,7 @@ import net.walend.disentangle.graph.semiring.par.ParDijkstra
 import net.walend.disentangle.graph.{AdjacencyLabelDigraph, IndexedLabelDigraph}
 import net.walend.disentangle.graph.semiring.{AllPathsFirstSteps, Dijkstra, FewestNodes, FirstStepsTrait}
 
-//import scala.collection.parallel.immutable.ParSeq
+import scala.collection.parallel.immutable.ParSeq
 
 /**
  * Use Dijkstra's algorithms to find either single-source or all-pairs shortest paths using the default semiring.
