@@ -13,6 +13,4 @@ package net.walend.disentangle
  * @author dwalend
  * @since v0.1.0
  */
-package object graph {
-
-}
+package object graph 

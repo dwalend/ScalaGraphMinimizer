@@ -53,7 +53,7 @@ class AdjacencyLabelUndigraph[Node,Label](outNodes:IndexedSet[Node], //provides 
   }
 
   //todo really should be a Set, not an IndexedSet
-  val inEdges:Vector[IndexedSet[InnerEdgeType]] = outEdges.map(neighborSet)
+  private val inEdges:Vector[IndexedSet[InnerEdgeType]] = outEdges.map(neighborSet)
 
   def nodes: IndexedSet[Node] = outNodes
 

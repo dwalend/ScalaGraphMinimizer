@@ -52,9 +52,9 @@ case class AdjacencyUndigraph[Node](outNodes:IndexedSet[Node], //provides the ma
   }
 
   //todo really should be a Set, not an IndexedSet
-  val inAdjacencyMatrix:Vector[IndexedSet[InnerEdgeType]] = adjacencyMatrix.map(neighborSet)
+  private val inAdjacencyMatrix:Vector[IndexedSet[InnerEdgeType]] = adjacencyMatrix.map(neighborSet)
 
-  def nodes = outNodes
+  def nodes: IndexedSet[Node] = outNodes
 
   override def nodeCount: Int = outNodes.size
 
@@ -108,7 +108,7 @@ case class AdjacencyUndigraph[Node](outNodes:IndexedSet[Node], //provides the ma
     that match {
 
       case that: Graph[_] =>
-        (edges.toSet.equals(that.edges.toSet)) && (nodes.equals(that.nodes))
+        edges.toSet.equals(that.edges.toSet) && nodes.equals(that.nodes)
 
       case _ => false
     }

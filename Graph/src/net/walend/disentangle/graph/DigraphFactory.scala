@@ -30,7 +30,7 @@ object DigraphFactory {
     AdjacencyLabelDigraph(edges,nodes,false)
   }
 
-  def shuffleAndTake[T](items:Set[T],toTake:Int,never:T):Seq[T] = {
+  private def shuffleAndTake[T](items:Set[T], toTake:Int, never:T):Seq[T] = {
     Random.shuffle(Seq.from(items - never)).take(toTake)
   }
 }

@@ -44,13 +44,13 @@ class AdjacencyDigraph[Node](outNodes:IndexedSet[Node], //provides the master in
   val nodeToInNode:Map[Node,InNode] = inNodes.map(x => x.value -> x).toMap
 
   def neighborSet(indexedSet:IndexedSet[(Node,Node)]):IndexedSet[InnerEdgeType] = {
-    indexedSet.map(x => InnerEdge(nodeToInNode.get(x._1).get,nodeToInNode.get(x._2).get))
+    indexedSet.map(x => InnerEdge(nodeToInNode(x._1),nodeToInNode(x._2)))
   }
 
   val inSuccessors:IndexedSet[IndexedSet[InnerEdgeType]] = outSuccessors.map(neighborSet)
   val inPredecessors:IndexedSet[IndexedSet[InnerEdgeType]] = outPredecessors.map(neighborSet)
 
-  def nodes = outNodes
+  def nodes: IndexedSet[Node] = outNodes
 
   override def nodeCount: Int = outNodes.size
 
@@ -110,7 +110,7 @@ class AdjacencyDigraph[Node](outNodes:IndexedSet[Node], //provides the master in
 object AdjacencyDigraph{
 
   def apply[Node](edges:Iterable[(Node,Node)] = Seq.empty,
-                        nodes:Seq[Node] = Seq.empty) = {
+                        nodes:Seq[Node] = Seq.empty): AdjacencyDigraph[Node] = {
 
     val nodeValues = IndexedSet.from((nodes ++ edges.map(_._1) ++ edges.map(_._2)).distinct)
 

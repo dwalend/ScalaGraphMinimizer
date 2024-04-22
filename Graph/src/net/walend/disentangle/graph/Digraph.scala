@@ -24,12 +24,12 @@ trait Digraph[Node] extends Graph[Node] {
     def from:InnerNodeType
     def to:InnerNodeType
 
-    override def selfEdge = {from == to}
+    override def selfEdge: Boolean = {from == to}
 
-    override def other(node:InnerNodeType) = {
+    override def other(node:InnerNodeType): InnerNodeType = {
       if(node == from) to
       else if (node == to) from
-      else throw new IllegalArgumentException(s"This edge contains ${from} and ${to}, not $node.")
+      else throw new IllegalArgumentException(s"This edge contains $from and $to, not $node.")
     }
 
   }
