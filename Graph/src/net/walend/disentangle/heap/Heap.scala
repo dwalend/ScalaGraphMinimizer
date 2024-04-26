@@ -74,10 +74,10 @@ object MinDoubleHeapOrdering extends HeapOrdering[Double] {
 
   /**
    * @return Some negative integer, zero, or a positive integer as the first argument is less than, equal to, or greater than the second, or None if they can't be compared
-
+   *
+   * @inheritdoc  (from PartialOrdering)
    */
-//todo why an option? At least rename this
-  def tryCompare(x: Double, y: Double): Option[Int] = {
+  override def tryCompare(x: Double, y: Double): Option[Int] = {
     if(x>y) Option(-1)
     else if(x==y) Option(0)
     else if(x<y) Option(1)
