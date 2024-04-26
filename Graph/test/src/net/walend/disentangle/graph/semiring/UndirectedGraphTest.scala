@@ -3,6 +3,7 @@ package net.walend.disentangle.graph.semiring
 import munit.FunSuite
 import net.walend.disentangle.graph.SomeGraph
 import net.walend.disentangle.graph.semiring.Brandes.BrandesSteps
+import net.walend.disentangle.graph.semiring.LabelUndigraphSemiringAlgorithms.{allLeastPathsAndBetweenness, allPairsShortestPaths}
 
 /**
   *

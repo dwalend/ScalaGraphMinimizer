@@ -4,6 +4,7 @@ import net.walend.disentangle.graph.{AdjacencyLabelDigraph, LabelDigraph, SomeGr
 import SomeGraph.*
 import Brandes.BrandesSteps
 import munit.FunSuite
+import net.walend.disentangle.graph.semiring.LabelDigraphSemiringAlgorithms.allLeastPathsAndBetweenness
 
 import scala.collection.Map
 

@@ -91,7 +91,7 @@ class BrandesExampleTest extends FunSuite {
     assert(paths == expectedPaths)
   }
 
-  test("The BrandesImplicitsExample should produce expected results") {
+  test("The BrandesExtensionExample should produce expected results") {
 
     val expectedBetweenesses = Map(
       E -> 7.5,
@@ -102,7 +102,7 @@ class BrandesExampleTest extends FunSuite {
       H -> 0.6666666666666666,
       D -> 0.6666666666666666
     )
-    val betweenesses = BrandesImplicitsExample.betweennessValues
+    val betweenesses = BrandesExtensionExample.betweennessValues
 
     assertEquals(betweenesses ,expectedBetweenesses)
   }

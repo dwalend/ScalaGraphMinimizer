@@ -6,6 +6,7 @@ package net.walend.disentangle
  * @author dwalend
  * @since v0.2.0
  */
+//todo remove the extra scala directory level
 package object examples {
 
 }

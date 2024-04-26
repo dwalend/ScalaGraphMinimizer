@@ -2,6 +2,7 @@ package net.walend.disentangle.graph.semiring
 
 import munit.FunSuite
 import net.walend.disentangle.graph.SomeGraph
+import net.walend.disentangle.graph.semiring.LabelDigraphSemiringAlgorithms.allPairsLeastPaths
 
 /**
  * Tests algorithms with FewestNodes
