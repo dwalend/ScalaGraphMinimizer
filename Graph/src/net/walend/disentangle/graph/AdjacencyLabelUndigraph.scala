@@ -143,6 +143,33 @@ class AdjacencyLabelUndigraph[Node,Label](outNodes:IndexedSet[Node], //provides 
   override def toString:String = {
     s"${this.getClass.getSimpleName}(edges = $edges,nodes = $outNodes,noEdgeExistsValue = $noEdgeExistsLabel)"
   }
+
+  /**
+   * O(n^2)^
+   */
+  override def edgeForIndex(from: Int, to: Int): Option[InnerEdge] = {
+    val indexedSet = inEdges(from).filter(x => x.nodePair._2 == inNodes.apply(to))
+    indexedSet.size match {
+      case 1 => Option(indexedSet.iterator.next())
+      case 0 => None
+      case _ => throw new IllegalStateException(s"Multiple edges from ${node(from)} to ${node(to)}: " + indexedSet)
+    }
+  }
+
+  /**
+   * O(n^2)^
+   */
+  override def edge(from: InNode, to: InNode): Option[InnerEdge] = edgeForIndex(from.index,to.index)
+
+  /**
+   * O(n^2)^
+   */
+  override def edge(from: Node, to: Node): Option[InnerEdge] = {
+    (innerNode(from),innerNode(to)) match {
+      case (Some(f),Some(t)) => edge(f,t)
+      case (_,_) => None
+    }
+  }
 }
 
 /**

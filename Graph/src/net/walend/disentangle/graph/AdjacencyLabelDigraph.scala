@@ -88,7 +88,6 @@ class AdjacencyLabelDigraph[Node,Label](outNodes:IndexedSet[Node], //provides th
    *
    * @return the edge between start and end or noEdgeExistsValue
    */
-  //todo reconsile with edge() and the other label.
   override def label(from: InnerNode, to: InnerNode):Label = {
     val indexedSet = inSuccessors(from.index).filter(x => x.to == to)
     indexedSet.size match {
@@ -122,7 +121,7 @@ class AdjacencyLabelDigraph[Node,Label](outNodes:IndexedSet[Node], //provides th
     indexedSet.size match {
       case 0 => noEdgeExistsLabel
       case 1 => indexedSet.iterator.next().label
-      case _ => throw new IllegalStateException(s"Multiple edges from ${node(i)} to ${node(j)}: "+indexedSet)
+      case _ => throw new IllegalStateException(s"Multiple edges i ${node(i)} to ${node(j)}: "+indexedSet)
     }
   }
 
@@ -130,14 +129,28 @@ class AdjacencyLabelDigraph[Node,Label](outNodes:IndexedSet[Node], //provides th
     s"${this.getClass.getSimpleName}(edges = $edges,nodes = $outNodes,noEdgeExistsValue = $noEdgeExistsLabel)"
   }
 
+  /**
+   * O(n^2)^
+   */
   override def edge(from: InnerNode, to: InnerNode): Option[InnerEdgeType] = {
-
     val indexedSet = inSuccessors(from.index).filter(x => x.to == to)
 
     indexedSet.size match {
       case 0 => None
-      case 1 => Some(indexedSet.iterator.next())
-      case _ => throw new IllegalStateException(s"Multiple edges from $from to $to: "+indexedSet)
+      case 1 => Option(indexedSet.iterator.next())
+      case _ => throw new IllegalStateException(s"Multiple edges i $from to $to: "+indexedSet)
+    }
+  }
+
+  /**
+   * O(n^2)^
+   */
+  override def edgeForIndex(from: Int, to: Int): Option[InnerEdge] = {
+    val indexedSet = inSuccessors(from).filter(_.to.index == to)
+    indexedSet.size match {
+      case 0 => None
+      case 1 => Option(indexedSet.iterator.next())
+      case _ => throw new IllegalStateException(s"Multiple edges i $from to $to: " + indexedSet)
     }
   }
 }

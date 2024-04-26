@@ -19,7 +19,6 @@ trait LabelDigraph[Node,Label] extends Digraph[Node] {
   /**
    * @return the label to return when no edge exists
    */
-  //todo make this a function () => Label and throw a NoSuchElementException in 0.3 , to match LabelUndigraph
   def noEdgeExistsLabel:Label
 
   /**
@@ -44,7 +43,4 @@ trait IndexedLabelDigraph[Node,Label] extends LabelDigraph[Node,Label] with Inde
     * @throws IndexOutOfBoundsException if either i or j does not correspond with a node
     */
   def label(i:Int,j:Int):Label
-
-  //todo def edge(i:Int,j:Int):InnerEdgeType when it becomes clear what to do for edges that don't exist, and when the method is needed. (InnerNodeType,InnerNodeType,noEdgeExistsLabel) might be fine.
-
 }

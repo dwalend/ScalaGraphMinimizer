@@ -101,7 +101,10 @@ class AdjacencyDigraph[Node]( outNodes:IndexedSet[Node], //provides the master i
     s"${this.getClass.getSimpleName}(edges = $edges,nodes = $outNodes)"
   }
 
+  //todo check that these are right
   override def edge(from: InNode, to: InNode): Option[InnerEdgeType] = Option(inSuccessors(from.index)(to.index))
+
+  override def edgeForIndex(from: Int, to: Int): Option[InnerEdge] = Option(inSuccessors(from)(to))
 }
 
 /**

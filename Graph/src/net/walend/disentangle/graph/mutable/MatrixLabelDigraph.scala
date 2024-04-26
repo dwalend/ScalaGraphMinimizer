@@ -147,7 +147,13 @@ final case class MatrixLabelDigraph[Node,Label](outNodes:IndexedSet[Node], //pro
   override def edge(from: InnerNode, to: InnerNode): Option[InnerEdge] = {
     val l = label(from.index,to.index)
     if(noEdgeExistsLabel == l) None
-    else Some(InnerEdge(from,to,l))
+    else Option(InnerEdge(from,to,l))
+  }
+
+  override def edgeForIndex(i: Int, j: Int): Option[InnerEdge] = {
+    val l = label(i,j)
+    if(noEdgeExistsLabel == l) None
+    else Option(InnerEdge(innerNodeForIndex(i),innerNodeForIndex(j),l))
   }
 }
 

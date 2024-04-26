@@ -113,6 +113,32 @@ case class AdjacencyUndigraph[Node](outNodes:IndexedSet[Node], //provides the ma
 
   override lazy val hashCode:Int = edges.toSet.hashCode() + nodes.hashCode()
 
+  /**
+   * O(n^2)^
+   */
+  override def edgeForIndex(i: Int, j: Int): Option[InnerEdge] = {
+    val indexedSet = inAdjacencyMatrix(i).filter(x => x.nodePair._2 == inNodes.apply(j))
+    indexedSet.size match {
+      case 1 => Option(indexedSet.iterator.next())
+      case 0 => None
+      case _ => throw new IllegalStateException(s"Multiple edges i ${node(i)} j ${node(j)}: " + indexedSet)
+    }
+  }
+
+  /**
+   * O(n^2)^
+   */
+  override def edge(from: InNode, to: InNode): Option[InnerEdge] = edgeForIndex(from.index,to.index)
+
+  /**
+   * O(n^2)^
+   */
+  override def edge(from: Node, to: Node): Option[InnerEdge] = {
+    (innerNode(from),innerNode(to)) match {
+      case (Some(f),Some(t)) => edge(f,t)
+      case (_,_) => None
+    }
+  }
 }
 
 object AdjacencyUndigraph{
@@ -176,5 +202,5 @@ trait IndexedUndigraph[Node] extends Undigraph[Node] {
 
   def innerNodeForIndex(i:Int):InnerNodeType
 
-//todo if needed, and maybe one for the nodes, too  def exists(i:Int,j:Int):Boolean
+  def edgeForIndex(from: Int, to: Int): Option[InnerEdgeType]
 }

@@ -19,7 +19,6 @@ object DigraphFactory {
 
     val nodes:Seq[Int] = 0 until nodeCount
 
-    //todo nodes.par
     val seqOfListOfEdges = nodes.map{fromNode =>
       shuffleAndTake(Set.from(nodes),Random.nextInt(maxOutEdgesPerNode),fromNode).map(toNode => (fromNode,toNode,true))
     }

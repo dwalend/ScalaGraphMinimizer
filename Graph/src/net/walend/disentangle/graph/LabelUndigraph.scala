@@ -39,7 +39,4 @@ trait IndexedLabelUndigraph[Node,Label] extends  IndexedGraph[Node] with LabelUn
     * @return the label connecting edge i to edge j, or noEdgeExists
     */
   def label(i:Int,j:Int):Label
-
-  //todo def edge(i:Int,j:Int):InnerEdgeType when needed
-
 }

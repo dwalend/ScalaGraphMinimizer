@@ -15,69 +15,74 @@ import scala.collection.immutable.{Set, Iterable}
 trait Graph[Node] {
 
   /**
-    * The edge type used to build this graph representation
-    */
+   * The edge type used to build this graph representation
+   */
   type OuterEdgeType
 
   /**
-    * An internal representation of nodes within the graph
-    */
+   * An internal representation of nodes within the graph
+   */
   trait InnerNodeTrait {
-    def value:Node
+    def value: Node
   }
 
   /**
-    * The node type returned by graph representation
-    */
+   * The node type returned by graph representation
+   */
   type InnerNodeType <: InnerNodeTrait
 
   /**
-    * An internal representation of edges within the graph
-    */
+   * An internal representation of edges within the graph
+   */
   trait InnerEdgeTrait {
-    def value:OuterEdgeType
+    def value: OuterEdgeType
 
-    def selfEdge:Boolean
+    def selfEdge: Boolean
 
-    def other(node:InnerNodeType):InnerNodeType
+    def other(node: InnerNodeType): InnerNodeType
   }
 
   /**
-    * The edge type returned by this graph representation
-    */
+   * The edge type returned by this graph representation
+   */
   type InnerEdgeType <: InnerEdgeTrait
 
   /**
    * All the nodes in the graph
    */
-  def nodes:Set[Node]
+  def nodes: Set[Node]
 
   /**
    * @return number of nodes in the graph
    */
-  def nodeCount:Int
+  def nodeCount: Int
 
   /**
    * @return InnerNode representation of all of the nodes in the graph.
    */
-  def innerNodes:Set[InnerNodeType]
+  def innerNodes: Set[InnerNodeType]
 
   /**
    * @param value a node that might be in this digraph
    * @return Some inner node if it exists in the digraph or None
    */
-  def innerNode(value:Node):Option[InnerNodeType]
+  def innerNode(value: Node): Option[InnerNodeType]
 
   /**
    * @return A Traversable (usually something more specific) of the edges
    */
-  def edges:Iterable[OuterEdgeType]
+  def edges: Iterable[OuterEdgeType]
 
   /**
    * @return A Traversable of the edges as represented in the graph
    */
-  def innerEdges:Iterable[InnerEdgeType]
+  def innerEdges: Iterable[InnerEdgeType]
+
+  def edge(from: InnerNodeType, to: InnerNodeType): Option[InnerEdgeType]
+
+  def edge(from: Node, to: Node): Option[InnerEdgeType]
 }
+
 
 /**
   * A graph that exposes the indices of stored nodes.
@@ -115,4 +120,5 @@ trait IndexedGraph[Node] extends Graph[Node] {
 
   def innerNodeForIndex(i:Int):InnerNodeType
 
+  def edgeForIndex(from: Int, to: Int): Option[InnerEdgeType]
 }
