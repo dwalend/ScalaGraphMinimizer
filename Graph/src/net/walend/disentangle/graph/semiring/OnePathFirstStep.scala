@@ -24,16 +24,16 @@ class OnePathFirstStep[Node,CoreLabel,Key](coreSupport:SemiringSupport[CoreLabel
     /**
      * Overriding equals to speed up.
      */
-    override def equals(any:Any) = {
-      if (any.isInstanceOf[FirstStep]) {
-        val other: FirstStep = any.asInstanceOf[FirstStep]
-        if (this eq other) true //if they share a memory address, no need to compare
-        else {
-          if (weight == other.weight) {
-            step == other.step
-          } else false
-        }
-      } else false
+    override def equals(any:Any): Boolean = {
+      any match
+        case other: FirstStep =>
+          if (this eq other) true //if they share a memory address, no need to compare
+          else {
+            if (weight == other.weight) {
+              step == other.step
+            } else false
+          }
+        case _ => false
     }
 
     /**
@@ -49,7 +49,7 @@ class OnePathFirstStep[Node,CoreLabel,Key](coreSupport:SemiringSupport[CoreLabel
     Option(FirstStep(coreLabelForEdge(start,end,coreLabel),Option(end)))
   }
 
-  def convertEdgeToLabelFunc[EdgeLabel](coreLabelForEdge:(Node,Node,EdgeLabel)=>CoreLabel):((Node,Node,EdgeLabel) => Label) = convertEdgeToLabel(coreLabelForEdge)
+  def convertEdgeToLabelFunc[EdgeLabel](coreLabelForEdge:(Node,Node,EdgeLabel)=>CoreLabel): (Node,Node,EdgeLabel) => Label = convertEdgeToLabel(coreLabelForEdge)
 
   object OnePathSemiring extends Semiring {
 
@@ -61,8 +61,8 @@ class OnePathFirstStep[Node,CoreLabel,Key](coreSupport:SemiringSupport[CoreLabel
     }
 
     //identity and annihilator
-    val I = Option(FirstStep(coreSupport.semiring.I,None))
-    val O = None
+    val I: Option[FirstStep] = Option(FirstStep(coreSupport.semiring.I,None))
+    val O: Option[FirstStep] = None
 
     def summary(fromThroughToLabel:Label,currentLabel:Label):Label = {
 

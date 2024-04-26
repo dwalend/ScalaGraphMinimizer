@@ -10,10 +10,10 @@ import scala.collection.{Map, Seq, Iterable}
   * @author dwalend
   * @since v0.2.1
   */
-class AdjacencyDigraph[Node](outNodes:IndexedSet[Node], //provides the master index values for each node.
-                                        outSuccessors:IndexedSet[IndexedSet[(Node,Node)]], // (i) is the successors for node i, (j) is the node,node tuple to reach that second node.
-                                        outPredecessors:IndexedSet[IndexedSet[(Node,Node)]]
-                                       ) extends Tuple2Digraph[Node] with IndexedGraph[Node] {
+class AdjacencyDigraph[Node]( outNodes:IndexedSet[Node], //provides the master index values for each node.
+                              outSuccessors:IndexedSet[IndexedSet[(Node,Node)]], // (i) is the successors for node i, (j) is the node,node tuple to reach that second node.
+                              outPredecessors:IndexedSet[IndexedSet[(Node,Node)]]
+                             ) extends Tuple2Digraph[Node] with IndexedGraph[Node] {
   override type InnerNodeType = InNode
   case class InNode(override val value:Node,override val index:Int) extends this.DigraphInnerNodeTrait with this.InnerIndexedNodeTrait {
 
@@ -101,7 +101,7 @@ class AdjacencyDigraph[Node](outNodes:IndexedSet[Node], //provides the master in
     s"${this.getClass.getSimpleName}(edges = $edges,nodes = $outNodes)"
   }
 
-  override def edge(from: InNode, to: InNode): Option[InnerEdgeType] = ???  //todo
+  override def edge(from: InNode, to: InNode): Option[InnerEdgeType] = Option(inSuccessors(from.index)(to.index))
 }
 
 /**

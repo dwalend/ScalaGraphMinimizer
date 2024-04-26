@@ -17,7 +17,6 @@ object DigraphFactory {
 
     require(maxOutEdgesPerNode < nodeCount)
 
-//    val nodes:Range = 0 until nodeCount
     val nodes:Seq[Int] = 0 until nodeCount
 
     //todo nodes.par

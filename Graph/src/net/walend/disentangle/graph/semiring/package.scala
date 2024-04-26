@@ -21,6 +21,7 @@ package object semiring {
     *
     * Helper methods for LabelDigraphs
     */
+//todo replace with an extension
   implicit class LabelDigraphSemiringAlgorithms[Node,Label](self: LabelDigraph[Node,Label]) {
 
     def allPairsShortestPaths: Seq[(Node,Node,Option[FirstStepsTrait[Node, Int]])] = self match {

@@ -20,6 +20,7 @@ trait Undigraph[Node] extends Graph[Node] {
     */
   type InnerNodeType <: UndigraphInnerNodeTrait
 
+  //todo no trait postfix
   trait UndigraphInnerEdgeTrait extends InnerEdgeTrait {
     def nodePair: NodePair[InnerNodeType]
 

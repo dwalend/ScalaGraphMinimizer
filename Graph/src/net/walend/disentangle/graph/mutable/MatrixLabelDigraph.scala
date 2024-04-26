@@ -4,16 +4,15 @@ import scala.collection.mutable.ArrayBuffer
 import scala.collection.{Seq, Iterable}
 
 import net.walend.disentangle.graph.{IndexedLabelDigraph, IndexedSet}
-
 /**
- * Provides constant-time access and mutator for edges. Stores Nodes in a Vector and Labels in a Vector of ArrayBuffers.
+ * Provides constant-time access and mutator for edges. Stores Nodes in an IndexedSet and Labels in a Vector of ArrayBuffers.
  *
  * The constructor is O(n)
  *
  * @author dwalend
  * @since v0.1.0
  */
-case class MatrixLabelDigraph[Node,Label](outNodes:IndexedSet[Node], //provides the master index values for each node.
+final case class MatrixLabelDigraph[Node,Label](outNodes:IndexedSet[Node], //provides the master index values for each node.
                                            edgeMatrix:Vector[ArrayBuffer[Label]], // (row,column) is (start,end), indexed by node.
                                            noEdgeExistsLabel:Label //value for no edge
                                           ) extends IndexedLabelDigraph[Node,Label] with MutableLabelDigraph[Node,Label] {

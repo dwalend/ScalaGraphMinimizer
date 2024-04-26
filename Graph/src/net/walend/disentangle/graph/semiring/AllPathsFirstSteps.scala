@@ -26,6 +26,7 @@ case class AllPathsFirstSteps[Node,CoreLabel,Key](coreSupport:SemiringSupport[Co
     /**
      * Overriding equals to speed up.
      */
+    //todo why does changing this to use a match/case break a test?
     override def equals(any:Any) = {
       if (any.isInstanceOf[FirstSteps]) {
         val other: FirstSteps = any.asInstanceOf[FirstSteps]
@@ -52,7 +53,7 @@ case class AllPathsFirstSteps[Node,CoreLabel,Key](coreSupport:SemiringSupport[Co
     Option(FirstSteps(coreLabelForEdge(start,end,edgeLabel),Set(end)))
   }
 
-  def convertEdgeToLabelFunc[EdgeLabel](coreLabelForEdge:(Node,Node,EdgeLabel)=>CoreLabel):((Node,Node,EdgeLabel) => Label) = convertEdgeToLabel(coreLabelForEdge)
+  def convertEdgeToLabelFunc[EdgeLabel](coreLabelForEdge:(Node,Node,EdgeLabel)=>CoreLabel): (Node,Node,EdgeLabel) => Label = convertEdgeToLabel(coreLabelForEdge)
 
   object AllPathsSemiring extends Semiring {
 

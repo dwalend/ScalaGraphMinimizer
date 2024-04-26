@@ -46,12 +46,10 @@ case class AdjacencyUndigraph[Node](outNodes:IndexedSet[Node], //provides the ma
   val inNodes:IndexedSet[InNode] = outNodes.zipWithIndex.map(x => InNode(x._1,x._2))
   val nodeToInNode:Map[Node,InNode] = inNodes.map(x => x.value -> x).toMap
 
-  //todo really should be a Set, not an IndexedSet
   def neighborSet(indexedSet:IndexedSet[OuterEdgeType]):IndexedSet[InnerEdgeType] = {
     indexedSet.map(e => InnerEdge(nodeToInNode(e._1),nodeToInNode(e._2)))
   }
 
-  //todo really should be a Set, not an IndexedSet
   private val inAdjacencyMatrix:Vector[IndexedSet[InnerEdgeType]] = adjacencyMatrix.map(neighborSet)
 
   def nodes: IndexedSet[Node] = outNodes

@@ -78,7 +78,7 @@ object FloydWarshall {
     floydWarshall(initialDigraph,support)
   }
 
-  def defaultSupport[Node] = AllPathsFirstSteps[Node,Int,Int](FewestNodes)
+  def defaultSupport[Node]: AllPathsFirstSteps[Node, Int, Int] = AllPathsFirstSteps[Node,Int,Int](FewestNodes)
 
   def allPairsShortestPaths[Node,EdgeLabel](edges:Iterable[(Node,Node,EdgeLabel)],
                                             nodeOrder:Seq[Node] = Seq.empty

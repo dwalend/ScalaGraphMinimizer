@@ -17,10 +17,10 @@ object Dijkstra {
   /**
    * O(1)
    */
-  def relaxSource[Node,Label,Key](digraph:IndexedLabelDigraph[Node,Label],
-                                  labels:ArrayBuffer[Label],
-                                  semiring:SemiringSupport[Label,Key]#Semiring)
-                                (from:digraph.InnerNodeType,
+  private def relaxSource[Node,Label,Key](digraph:IndexedLabelDigraph[Node,Label],
+                                          labels:ArrayBuffer[Label],
+                                          semiring:SemiringSupport[Label,Key]#Semiring)
+                                         (from:digraph.InnerNodeType,
                                  through:digraph.InnerNodeType,
                                  to:digraph.InnerEdgeType):Label = {
 
@@ -127,12 +127,12 @@ object Dijkstra {
   /**
    * O(1)
    */
-  def relaxSink[Node,Label,Key](digraph:IndexedLabelDigraph[Node,Label],
-                                labels:ArrayBuffer[Label],
-                                semiring:SemiringSupport[Label,Key]#Semiring)
-                               (from:digraph.InnerEdgeType,
-                                through:digraph.InnerNodeType,
-                                to:digraph.InnerNodeType):Label = {
+  private def relaxSink[Node,Label,Key](digraph:IndexedLabelDigraph[Node,Label],
+                                        labels:ArrayBuffer[Label],
+                                        semiring:SemiringSupport[Label,Key]#Semiring)
+                                       (from:digraph.InnerEdgeType,
+                                        through:digraph.InnerNodeType,
+                                        to:digraph.InnerNodeType):Label = {
 
     val fromThrough:Label = from.label
     val throughTo:Label = labels(through.index)
