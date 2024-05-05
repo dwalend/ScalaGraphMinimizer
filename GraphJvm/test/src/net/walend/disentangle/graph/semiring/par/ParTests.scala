@@ -45,7 +45,7 @@ class ParTests extends FunSuite{
     val answers: UndirectedGraphTest = new UndirectedGraphTest()
     val allShortestPaths = SomeGraph.testLabelUndigraph.parAllPairsShortestPaths
 
-    assertEquals(Vector.from(allShortestPaths), answers.expectedShortestPaths)
+    assert(Vector.from(allShortestPaths) == answers.expectedShortestPaths)
   }
   
   test("Brandes' algorithm should produce the correct label graph and betweenness using the implicit method on a Digraph in parallel") {

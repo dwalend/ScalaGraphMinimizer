@@ -19,35 +19,6 @@ case class AllPathsFirstSteps[Node,CoreLabel,Key](coreSupport:SemiringSupport[Co
 
   def heapKeyForLabel:Label=>Key = _.fold(coreSupport.heapOrdering.AlwaysBottom)(x => coreSupport.heapKeyForLabel(x.pathWeight))
 
-  //todo could be a Seq instead if just used in Dijkstra's algorithm -- faster
-  //todo or another place to use the IndexedSet.
-  case class FirstSteps(pathWeight:CoreLabel,choices:Set[Node]) extends FirstStepsTrait[Node, CoreLabel] {
-
-    /**
-     * Overriding equals to speed up.
-     */
-    //todo why does changing this to use a match/case break a test?
-    override def equals(any:Any) = {
-      if (any.isInstanceOf[FirstSteps]) {
-        val other: FirstSteps = any.asInstanceOf[FirstSteps]
-        if (this eq other) true //if they share a memory address, no need to compare
-        else {
-          if (pathWeight == other.pathWeight) {
-            choices == other.choices
-          } else false
-        }
-      } else false
-    }
-
-    /**
-     * Overriding hashCode because I overrode equals.
-     */
-    override def hashCode():Int = {
-      pathWeight.hashCode() ^ choices.hashCode()
-    }
-  }
-
-
   def convertEdgeToLabel[EdgeLabel](coreLabelForEdge:(Node,Node,EdgeLabel)=>CoreLabel)
                               (start: Node, end: Node, edgeLabel: EdgeLabel):Label = {
     Option(FirstSteps(coreLabelForEdge(start,end,edgeLabel),Set(end)))
@@ -55,17 +26,17 @@ case class AllPathsFirstSteps[Node,CoreLabel,Key](coreSupport:SemiringSupport[Co
 
   def convertEdgeToLabelFunc[EdgeLabel](coreLabelForEdge:(Node,Node,EdgeLabel)=>CoreLabel): (Node,Node,EdgeLabel) => Label = convertEdgeToLabel(coreLabelForEdge)
 
-  object AllPathsSemiring extends Semiring {
+  private object AllPathsSemiring extends Semiring {
 
-    val coreSemiring:SemiringSupport[CoreLabel,Key]#Semiring = coreSupport.semiring
+    private val coreSemiring:SemiringSupport[CoreLabel,Key]#Semiring = coreSupport.semiring
 
     def inDomain(label: Label): Boolean = {
       label.forall(steps => coreSemiring.inDomain(steps.pathWeight))
     }
     
     //identity and annihilator
-    val I = Option(FirstSteps(coreSemiring.I,Set[Node]()))
-    val O = None
+    val I: Option[FirstSteps[Node, CoreLabel]] = Option(FirstSteps(coreSemiring.I,Set[Node]()))
+    val O: Option[FirstSteps[Node, CoreLabel]]  = None
 
     def summary(fromThroughToLabel:Label,currentLabel:Label):Label = {
 
@@ -169,4 +140,30 @@ trait FirstStepsTrait[Node,CoreLabel] {
 
   def choices:Set[Node]
 
+}
+
+case class FirstSteps[Node,CoreLabel](pathWeight:CoreLabel,choices:Set[Node]) extends FirstStepsTrait[Node, CoreLabel] {
+
+  /**
+   * Overriding equals to speed up.
+   */
+  override def equals(any:Any): Boolean = {
+    any match
+      case other: FirstSteps[Node,CoreLabel] =>
+        if (this eq other)
+          true //if they share a memory address, no need to compare
+        else {
+          if (pathWeight == other.pathWeight) {
+            choices == other.choices
+          } else false
+        }
+      case _ => false
+  }
+
+  /**
+   * Overriding hashCode because I overrode equals.
+   */
+  override def hashCode():Int = {
+    pathWeight.hashCode() ^ choices.hashCode()
+  }
 }
