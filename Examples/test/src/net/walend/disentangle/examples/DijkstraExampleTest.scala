@@ -24,5 +24,7 @@ class DijkstraExampleTest extends FunSuite {
     val paths = DijkstraExample.paths
 
     val shortPathLabelsFromA = DijkstraExample.shortPathLabelsFromA
+
+    val shortPathLabelsToE = DijkstraExample.shortPathLabelsToE
   }
 }

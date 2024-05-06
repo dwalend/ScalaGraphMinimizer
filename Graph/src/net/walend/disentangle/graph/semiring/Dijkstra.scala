@@ -149,7 +149,6 @@ object Dijkstra {
    *
    * O(n ln(n) + a)
    */
-  //todo could not use a default argument for the heap. Report that as a possible bug.
   private[semiring] def dijkstraSingleSinkCustomHeap[Node,Label,Key](initialGraph:IndexedLabelDigraph[Node,Label],
                                                    support:SemiringSupport[Label,Key])
                                                   (sink:initialGraph.InnerNodeType,

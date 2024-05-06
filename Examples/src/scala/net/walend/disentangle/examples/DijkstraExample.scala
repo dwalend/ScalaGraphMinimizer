@@ -74,4 +74,5 @@ object DijkstraExample {
    */
   lazy val shortPathLabelsFromA: Seq[(String, String, support.Label)] = Dijkstra.dijkstraSingleSource(initialLabelDigraph,support)(initialLabelDigraph.innerNode("A").getOrElse(throw new IllegalStateException("A is not in this graph. How?")))
 
+  lazy val shortPathLabelsToE: Seq[(String, String, Any)] = Dijkstra.dijkstraSingleSink(initialLabelDigraph,support)(initialLabelDigraph.innerNode("E").getOrElse(throw new IllegalStateException("A is not in this graph. How?")))
 }
