@@ -29,11 +29,11 @@ object BrandesExtensionExample {
   /**
     * The labels from Brandes use node indexes from a directed graph, so it's best to control those via the optional nodeOrder parameter
     */
-  lazy val nodeOrder: Array[String] = Array("A","B","C","D","E","F","H")
+  lazy val nodeOrder: Seq[String] = Seq("A","B","C","D","E","F","H")
 
   val graph: AdjacencyLabelUndigraph[String, String] = AdjacencyLabelUndigraph(edges,nodeOrder)
 
-  lazy val brandesResults: (IndexedSeq[(String, String, Option[BrandesSteps[String, Int]])], Map[String, Double]) = graph.allLeastPathsAndBetweenness()
+  private lazy val brandesResults: (IndexedSeq[(String, String, Option[BrandesSteps[String, Int]])], Map[String, Double]) = graph.allLeastPathsAndBetweenness()
 
   lazy val nextStepsAndCosts: IndexedSeq[(String, String, Option[BrandesSteps[String, Int]])] = brandesResults._1
 

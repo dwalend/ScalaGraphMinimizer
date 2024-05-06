@@ -34,7 +34,7 @@ object BrandesExample {
   /**
    * The labels from Brandes use node indexes from a directed graph, so it's best to control those via the optional nodeOrder parameter
    */
-  lazy val nodeOrder: Array[String] = Array("A","B","C","D","E","F","H")
+  lazy val nodeOrder: Seq[String] = Seq("A","B","C","D","E","F","H")
 
   /**
    * Find shortest paths and betweenness for the graph
