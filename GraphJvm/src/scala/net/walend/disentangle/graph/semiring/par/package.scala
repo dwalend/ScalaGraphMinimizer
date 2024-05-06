@@ -48,7 +48,7 @@ package object par {
 
     def parAllPairsLeastPaths[SemiringLabel, Key](support: SemiringSupport[SemiringLabel, Key],
                                                   labelForEdge: (Node, Node, Label) => SemiringLabel): ParSeq[(Node, Node, SemiringLabel)] = self match {
-      case indexed: IndexedLabelDigraph[Node, Label] => ParDijkstra.parAllPairsLeastPaths(diEdges, support, labelForEdge, indexed.nodes.asSeq)
+      case indexed: IndexedLabelDigraph[_, _] => ParDijkstra.parAllPairsLeastPaths(diEdges, support, labelForEdge, indexed.nodes.asSeq)
       case _ => ParDijkstra.parAllPairsLeastPaths(diEdges, support, labelForEdge)
     }
 
@@ -57,7 +57,7 @@ package object par {
                                                         labelForEdge: (Node, Node, Label) => CoreLabel = FewestNodes.edgeToLabelConverter
                                                       ): (ParSeq[(Node, Node, Option[BrandesSteps[Node, CoreLabel]])], ParMap[Node, Double]) = {
       val digraphResult = self match {
-        case indexed: IndexedLabelDigraph[Node, Label] => ParBrandes.parAllLeastPathsAndBetweenness(indexed.edges, indexed.nodes.asSeq, coreSupport, labelForEdge)
+        case indexed: IndexedLabelDigraph[_, _] => ParBrandes.parAllLeastPathsAndBetweenness(diEdges, indexed.nodes.asSeq, coreSupport, labelForEdge)
         case _ => ParBrandes.parAllLeastPathsAndBetweenness(diEdges, coreSupport = coreSupport, labelForEdge = labelForEdge)
       }
       correctForUndigraph(digraphResult)

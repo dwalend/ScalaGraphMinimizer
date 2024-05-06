@@ -149,8 +149,8 @@ case class FirstSteps[Node,CoreLabel](pathWeight:CoreLabel,choices:Set[Node]) ex
    */
   override def equals(any:Any): Boolean = {
     any match
-      case other: FirstSteps[Node,CoreLabel] =>
-        if (this eq other)
+      case other: FirstSteps[_,_] =>
+        if (this eq any)
           true //if they share a memory address, no need to compare
         else {
           if (pathWeight == other.pathWeight) {

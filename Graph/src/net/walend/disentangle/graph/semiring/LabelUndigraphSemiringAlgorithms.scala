@@ -19,14 +19,14 @@ object LabelUndigraphSemiringAlgorithms {
 
     def allPairsLeastPaths[SemiringLabel, Key](support: SemiringSupport[SemiringLabel, Key],
                                                labelForEdge: (Node, Node, Label) => SemiringLabel): Seq[(Node, Node, SemiringLabel)] = self match {
-      case indexed: IndexedLabelDigraph[Node, Label] => Dijkstra.allPairsLeastPaths(diEdges, support, labelForEdge, indexed.nodes.asSeq)
+      case indexed: IndexedLabelDigraph[_, _] => Dijkstra.allPairsLeastPaths(diEdges, support, labelForEdge, indexed.nodes.asSeq)
       case _ => Dijkstra.allPairsLeastPaths(diEdges, support, labelForEdge)
     }
 
     def allLeastPathsAndBetweenness[CoreLabel, Key](coreSupport: SemiringSupport[CoreLabel, Key] = FewestNodes,
                                                     labelForEdge: (Node, Node, Label) => CoreLabel = FewestNodes.edgeToLabelConverter): (IndexedSeq[(Node, Node, Option[BrandesSteps[Node, CoreLabel]])], Map[Node, Double]) = {
       val digraphResult = self match {
-        case indexed: IndexedLabelDigraph[Node, Label] => Brandes.allLeastPathsAndBetweenness(indexed.edges, indexed.nodes.asSeq, coreSupport, labelForEdge)
+        case indexed: IndexedLabelDigraph[_, _] => Brandes.allLeastPathsAndBetweenness(diEdges, indexed.nodes.asSeq, coreSupport, labelForEdge)
         case _ => Brandes.allLeastPathsAndBetweenness(diEdges, coreSupport = coreSupport, labelForEdge = labelForEdge)
       }
       correctForUndigraph(digraphResult)

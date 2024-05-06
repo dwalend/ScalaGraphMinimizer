@@ -287,7 +287,7 @@ object Agglomerate {
         createCycle(remainingLessALoop,aLoop::acc)
       }
     }
-    val loops: List[FormCycle] = createCycle(clustersInLoops).map(FormCycle)
+    val loops: List[FormCycle] = createCycle(clustersInLoops).map(FormCycle.apply)
 
     siblings ++ chains ++ loops   //todo wheels
   }
