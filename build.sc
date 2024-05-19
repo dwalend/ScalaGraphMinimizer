@@ -6,7 +6,7 @@ import mill.scalalib.publish._
 
 object Shared {
   val version = "0.3.0"
-  val scalacOptions = Seq("-deprecation")
+  val scalacOptions: Seq[String] = Seq("-deprecation")
   val scalaJSVersion = "1.16.0" //todo see javascript work
   val scalaVersion = "3.3.3"
   val javaVersion = "17.0.6"
@@ -64,7 +64,7 @@ object GraphJvm extends ScalaModule {
 
   override def scalaVersion: T[String] = Shared.scalaVersion
 
-  def javaVersion = Shared.javaVersion
+  def javaVersion: String = Shared.javaVersion
 
   override def scalacOptions = Shared.scalacOptions
 
