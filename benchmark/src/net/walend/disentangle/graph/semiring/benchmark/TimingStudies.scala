@@ -10,7 +10,7 @@ import scopt.OptionParser
  */
 object TimingStudies {
 
-  val studies: Map[String, Timeable ] = Map(
+  private val studies: Map[String, Timeable ] = Map(
     "dijkstra"->DijkstraTiming,
     "jungDijkstra" -> JungDijkstraTiming,
     "floydWarshall" -> FloydWarshallTiming,
@@ -19,7 +19,7 @@ object TimingStudies {
 //    "parBrandes" -> ParBrandesTiming
   )
 
-  case class ArgsConfig(algorithm:Timeable = DijkstraTiming,lowExponent:Int = 5,highExponent:Int = 7, out:Option[File] = None) {
+  private case class ArgsConfig(algorithm:Timeable = DijkstraTiming, lowExponent:Int = 5, highExponent:Int = 7, out:Option[File] = None) {
     def validate() = {
       require(lowExponent <= highExponent, s"--highExponent $highExponent must be greater than or equal to --lowExponent $lowExponent")
     }
@@ -27,7 +27,7 @@ object TimingStudies {
 
   def main(args:Array[String]): Unit = {
 
-    val argsParser = new OptionParser[ArgsConfig]("Disentangler Timing Studies"){
+    val argsParser = new OptionParser[ArgsConfig]("Disentangle Timing Studies"){
       head("sbt \"benchmark/run ...\"")
 
       opt[String]('a',"algorithm") action {(x,c) =>
@@ -95,7 +95,7 @@ object TimingStudies {
 
     val nodes = ("nodes",results.map(x => x._1))
     //values are in nanoseconds
-    val measured = ("mesaured",results.map(x => x._2))
+    val measured = ("measured",results.map(x => x._2))
     val expected = ("expected",results.map(x => x._3))
 
     import upickle.default._

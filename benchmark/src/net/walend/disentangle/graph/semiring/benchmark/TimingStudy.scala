@@ -17,7 +17,7 @@ object TimingStudy {
     (result,endTime-startTime)
   }
 
-  def timeToStdOut[T](name:String)(body: => T) = {
+  def timeToStdOut[T](name:String)(body: => T): T = {
     val (result,time) = timeFunction(body)
 
     println(s"$name,${time/1000000000}")
@@ -53,31 +53,31 @@ case class TimingStudy(timeF:Int => Long,expectedF:((Int,Long),Int) => Long,minE
     nodeCounts.tail.map(x => writeResult(x,timeF(x),expectedF(calibration,x)))
   }
 
-  def nodeCountSeq(minExponent:Int,maxExponent:Int):Seq[Int] = {
+  private def nodeCountSeq(minExponent:Int, maxExponent:Int):Seq[Int] = {
     val exponents: Seq[Double] = (0 to (maxExponent - minExponent) * 4).map(_.toDouble).map(_ / 4 + minExponent)
 
     exponents.map(x => Math.pow(2, x).toInt)
   }
 
-  def warmUp[T](number:Int,body: => T) = {
+  def warmUp[T](number:Int,body: => T): Unit = {
     for(i <- 0 until number) body
   }
 
-  def writeHeader():Unit = {
+  private def writeHeader():Unit = {
     val header:String = "nodes,measured,expected"
     withOut(false) { out =>
       out.println(header)
     }
   }
 
-  def writeResult(nodeCount:Int,result:Long,expected:Long):(Int,Long,Long) = {
+  private def writeResult(nodeCount:Int, result:Long, expected:Long):(Int,Long,Long) = {
     withOut(true) { out =>
-      out.println(s"${nodeCount},${result},${expected}")
+      out.println(s"$nodeCount,$result,$expected")
     }
     (nodeCount,result,expected)
   }
 
-  def withOut[T](append:Boolean)(block:(PrintStream => T)): T = {
+  private def withOut[T](append:Boolean)(block: PrintStream => T): T = {
     val out = outFile.fold(System.out)(file => new PrintStream(new FileOutputStream(file,append)))
     val result = block(out)
     if(out != System.out) out.close()
