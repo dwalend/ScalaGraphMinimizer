@@ -75,8 +75,8 @@ object BrandesExample {
    lazy val subgraph: Set[labelDigraph.InnerEdgeType] = support.subgraphEdges(labelDigraph,"E","D")
 
    /**
-    * Or just get the shortest paths
+    * Get the shortest paths
     */
-   lazy val paths = support.allLeastPaths(labelDigraph,"E","D") //todo add type annotation back Seq[Seq[labelDigraph.InnerNodeType]]
+   lazy val paths: Seq[Seq[labelDigraph.InnerNodeType]] = support.allLeastPaths(labelDigraph,"E","D")
 }
 
