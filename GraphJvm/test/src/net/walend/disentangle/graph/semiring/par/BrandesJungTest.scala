@@ -7,7 +7,7 @@ import net.walend.disentangle.graph.{AdjacencyLabelDigraph, LabelDigraph}
 import scala.collection.Map
 
 /**
- *
+ * Test that my implementation of Brandes' algorithm gets the same results ast Jung's implementation
  *
  * @author dwalend
  * @since v0.1.0
@@ -53,7 +53,8 @@ AL MS
 AL TN
      */
 
-    val lines = Source.fromURL(getClass.getResource("/contiguous-usa.dat.txt")).getLines()
+    //todo close the source when you're done
+    val lines: Iterator[String] = Source.fromURL(getClass.getResource("/contiguous-usa.dat.txt")).getLines()
     //turn them into arcs
     def arcFromLine(line:String):Option[(String,String,Unit)] = {
       val splitLine: Array[String] = line.split(" ")

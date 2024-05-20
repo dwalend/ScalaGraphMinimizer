@@ -135,7 +135,7 @@ object TimingStudiesTest {
       val labelGraphParts = ConvertToLabelDigraph.convert(graph,support)(convertToLabel)
 
       def labelForLabel[N,E,L](from:N,to:N,edge:E):L = edge.asInstanceOf[L]
-      Dijkstra.allPairsLeastPaths(labelGraphParts._1, support, labelForLabel, labelGraphParts._2)
+      Dijkstra.parAllPairsLeastPaths(labelGraphParts._1, support, labelForLabel, labelGraphParts._2)
     }
 
     result._2

@@ -44,7 +44,7 @@ object BrandesExample {
   /**
    * Find shortest paths and betweenness for the graph in parallel
    */
-  lazy val shortestPathsAndBetweennessFromPar: (ParSeq[(String, String, Option[BrandesSteps[String, Int]])], ParMap[String, Double]) = ParBrandes.parAllLeastPathsAndBetweenness(edges,nodeOrder)
+  lazy val shortestPathsAndBetweennessFromPar: (ParSeq[(String, String, Option[BrandesSteps[String, Int]])], ParMap[String, Double]) = ParBrandes.allLeastPathsAndBetweenness(edges,nodeOrder)
 
   /**
    * The first item in the tuple holds edges labels.

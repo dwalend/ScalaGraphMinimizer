@@ -21,7 +21,7 @@ object ParBrandesTiming extends Timeable {
 
     val graph = DigraphFactory.createRandomNormalDigraph(nodeCount,16)
 
-    val result = TimingStudy.timeFunction{ParBrandes.parAllLeastPathsAndBetweenness(Seq.from(graph.edges),Seq.from(graph.nodes),support,FewestNodes.convertEdgeToLabel)}
+    val result = TimingStudy.timeFunction{ParBrandes.allLeastPathsAndBetweenness(Seq.from(graph.edges),Seq.from(graph.nodes),support,FewestNodes.convertEdgeToLabel)}
 
     result._2
   }

@@ -14,7 +14,7 @@ class DijkstraLeastWeightsExampleTest extends FunSuite {
 
     val shortPathLabels = DijkstraLeastWeightsExample.leastPathLabels
 
-//todo    val shortPathLabelsFromPar = DijkstraLeastWeightsExample.leastPathLabelsFromPar
+    val shortPathLabelsFromPar = DijkstraLeastWeightsExample.leastPathLabelsFromPar
 
     val labelDigraph = DijkstraLeastWeightsExample.labelDigraph
 

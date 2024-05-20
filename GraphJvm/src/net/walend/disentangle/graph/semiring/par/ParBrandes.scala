@@ -16,14 +16,12 @@ import scala.collection.parallel.immutable.{ParMap, ParSeq}
  * @author dwalend
  * @since v0.1.0
  */
-//noinspection ReferenceMustBePrefixed
-
 object ParBrandes {
 
   /**
    * This method runs Dijkstra's algorithm and finds betweenness for all nodes in the label graph.
    */
-  def parAllLeastPathsAndBetweenness[Node, EdgeLabel, CoreLabel, Key](
+  def allLeastPathsAndBetweenness[Node, EdgeLabel, CoreLabel, Key](
                                                                        edges: Iterable[(Node, Node, EdgeLabel)],
                                                                        nodeOrder: Seq[Node] = Seq.empty,
                                                                        coreSupport: SemiringSupport[CoreLabel, Key] = FewestNodes,
@@ -33,7 +31,6 @@ object ParBrandes {
     val support = new BrandesSupport[Node,CoreLabel,Key](coreSupport)
     type Label = support.Label
 
-    //todo make parallel
     val initialGraph: IndexedLabelDigraph[Node,Label] = Brandes.createLabelDigraph(edges, nodeOrder, support, labelForEdge)
 
     val innerNodes = ParSeq.fromSpecific(initialGraph.innerNodes)

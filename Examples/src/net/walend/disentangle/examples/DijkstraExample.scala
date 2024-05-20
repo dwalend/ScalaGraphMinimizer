@@ -45,7 +45,7 @@ object DijkstraExample {
   /**
    * Generate all the shortest paths in the graph in parallel
    */
-  lazy val simpleShortPathLabelsFromPar: ParSeq[(String, String, Option[FirstStepsTrait[String, Int]])] = ParDijkstra.parAllPairsShortestPaths(edges)
+  lazy val simpleShortPathLabelsFromPar: ParSeq[(String, String, Option[FirstStepsTrait[String, Int]])] = ParDijkstra.allPairsShortestPaths(edges)
 
   /**
    * The helper methods in AllPathsFirstSteps need a directed graph.
