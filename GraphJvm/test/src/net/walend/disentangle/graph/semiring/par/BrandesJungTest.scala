@@ -5,6 +5,9 @@ import net.walend.disentangle.graph.semiring.{Brandes, FewestNodes}
 import net.walend.disentangle.graph.{AdjacencyLabelDigraph, LabelDigraph}
 
 import scala.collection.Map
+import scala.util.Using
+import scala.io.Source
+
 
 /**
  * Test that my implementation of Brandes' algorithm gets the same results ast Jung's implementation
@@ -43,9 +46,6 @@ class BrandesJungTest extends FunSuite {
   }
 
   def usStateEdges: Seq[(String, String, Unit)] = {
-
-    import scala.io.Source
-
     /*
 AL FL
 AL GA
@@ -53,17 +53,17 @@ AL MS
 AL TN
      */
 
-    //todo close the source when you're done
-    val lines: Iterator[String] = Source.fromURL(getClass.getResource("/contiguous-usa.dat.txt")).getLines()
-    //turn them into arcs
-    def arcFromLine(line:String):Option[(String,String,Unit)] = {
-      val splitLine: Array[String] = line.split(" ")
-      Some((splitLine(0),splitLine(1),()))
-    }
+    Using(Source.fromURL(getClass.getResource("/contiguous-usa.dat.txt"))){ usStateFile =>
+      val lines: Iterator[String] = usStateFile.getLines()
 
-    val arcs = Seq.from(lines.flatMap(arcFromLine))
+      //turn them into arcs
+      def arcFromLine(line: String): Option[(String, String, Unit)] = {
+        val splitLine: Array[String] = line.split(" ")
+        Some((splitLine(0), splitLine(1), ()))
+      }
 
-    arcs
+      Seq.from(lines.flatMap(arcFromLine))
+    }.get
   }
 
   test("Brandes' algorithm should produce the same betweenness as Jung for the US state dataSeq, even in parallel") {
