@@ -36,16 +36,15 @@ object ParLabelUndigraphSemiringAlgorithms {
         case indexed: IndexedLabelDigraph[_, _] => ParBrandes.allLeastPathsAndBetweenness(self.diEdges, indexed.nodes.asSeq, coreSupport, labelForEdge)
         case _ => ParBrandes.allLeastPathsAndBetweenness(self.diEdges, coreSupport = coreSupport, labelForEdge = labelForEdge)
       }
+
+      //Can't share with the non-parallel version because ParSeq is not a Seq! See https://stackoverflow.com/questions/38087762/scala-parallel-seq-not-confroming-to-seq
+      def correctForUndigraph(
+                                digraphResult: (ParSeq[(Node, Node, Option[BrandesSteps[Node, CoreLabel]])], ParMap[Node, Double])
+                              ) = {
+        val halfMap = digraphResult._2.map(x => (x._1, x._2 / 2))
+        (digraphResult._1, halfMap)
+      }
       correctForUndigraph(digraphResult)
     }
-
-    //todo call method from non-parallel? Maybe this is really part of Brandes ?
-    private def correctForUndigraph[CoreLabel](
-                                        digraphResult: (ParSeq[(Node, Node, Option[BrandesSteps[Node, CoreLabel]])], ParMap[Node, Double])
-                                      ) = {
-      val halfMap = digraphResult._2.map(x => (x._1, x._2 / 2))
-      (digraphResult._1, halfMap)
-    }
-
   }
 }

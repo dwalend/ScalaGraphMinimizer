@@ -29,20 +29,18 @@ object LabelUndigraphSemiringAlgorithms {
         case indexed: IndexedLabelDigraph[_, _] => Brandes.allLeastPathsAndBetweenness(diEdges, indexed.nodes.asSeq, coreSupport, labelForEdge)
         case _ => Brandes.allLeastPathsAndBetweenness(diEdges, coreSupport = coreSupport, labelForEdge = labelForEdge)
       }
+
+      def correctForUndigraph(
+                                digraphResult: (IndexedSeq[(Node, Node, Option[BrandesSteps[Node, CoreLabel]])], Map[Node, Double])
+                              ): (IndexedSeq[(Node, Node, Option[BrandesSteps[Node, CoreLabel]])], Map[Node, Double]) = {
+        val halfMap = digraphResult._2.map(x => (x._1, x._2 / 2))
+        (digraphResult._1, halfMap)
+      }
       correctForUndigraph(digraphResult)
     }
 
     private[semiring] def diEdges: Iterable[(Node, Node, Label)] = {
       self.edges.map(e => (e._1._1, e._1._2, e._2)) ++ self.edges.map(e => (e._1._2, e._1._1, e._2))
     }
-
-    //todo call method from non-parallel? Maybe this is really part of Brandes ?
-    private[semiring] def correctForUndigraph[CoreLabel](
-                                        digraphResult: (IndexedSeq[(Node, Node, Option[BrandesSteps[Node, CoreLabel]])], Map[Node, Double])
-                                      ): (IndexedSeq[(Node, Node, Option[BrandesSteps[Node, CoreLabel]])], Map[Node, Double]) = {
-      val halfMap = digraphResult._2.map(x => (x._1, x._2 / 2))
-      (digraphResult._1, halfMap)
-    }
-
   }
 }
