@@ -7,7 +7,7 @@ import mill.scalalib.publish._
 object Shared {
   val version = "0.3.0"
   val scalacOptions: Seq[String] = Seq("-deprecation")
-  val scalaJSVersion = "1.16.0" //todo see javascript work
+  val scalaJSVersion = "1.16.0" //todo see javascript work in a browser
   val scalaVersion = "3.3.3"
   val javaVersion = "17.0.6"
   val munitVersion = "0.7.29"
