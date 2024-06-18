@@ -154,7 +154,7 @@ class FibonacciHeap[K,V](comparator:HeapOrdering[K]) extends Heap[K,V] {
         x = x.right
         x != top
       } do ()
-  
+
       while(rootCount>0) {
         var d:Int = x.childCount
 
@@ -207,7 +207,7 @@ class FibonacciHeap[K,V](comparator:HeapOrdering[K]) extends Heap[K,V] {
   private def link(y:FibonacciHeapMember,x:FibonacciHeapMember):Unit = {
     //remove y from the list of the heap
     y.release()
-    
+
     //make y a child of x
     x.addChild(y)
   }
@@ -229,17 +229,17 @@ class FibonacciHeap[K,V](comparator:HeapOrdering[K]) extends Heap[K,V] {
   }
 
   private class ChildIterator(startNode:FibonacciHeapMember) {
-  
+
     private var currentNode:FibonacciHeapMember = _
     private var currentChildIterator:ChildIterator = _
-    
+
     def hasNext:Boolean = {
       if((currentChildIterator!=null)&& currentChildIterator.hasNext) {
         return true
       }
       startNode != currentNode
     }
-    
+
     def next():FibonacciHeapMember = {
       if((currentChildIterator!=null)&& currentChildIterator.hasNext) {
         currentChildIterator.next()
@@ -270,10 +270,10 @@ class FibonacciHeap[K,V](comparator:HeapOrdering[K]) extends Heap[K,V] {
   class FibonacciHeapMember(val value:V) extends HeapMember {
 
     private var _key:K = comparator.AlwaysTop
-    private[FibonacciHeap] var parent: FibonacciHeapMember = _ //todo only need accessor outside of member
-    private[FibonacciHeap] var child: FibonacciHeapMember = _ //todo only need accessor outside of member
+    private var _parent: FibonacciHeapMember = _
+    private var _child: FibonacciHeapMember = _
     private var left: FibonacciHeapMember = this
-    private[FibonacciHeap] var right: FibonacciHeapMember = this //todo only need accessor outside of member
+    private var _right: FibonacciHeapMember = this
     private[FibonacciHeap] var childCount: Int = 0
     private[FibonacciHeap] var lostChild: Boolean = false
     private var inHeap: Boolean = false
@@ -284,12 +284,12 @@ class FibonacciHeap[K,V](comparator:HeapOrdering[K]) extends Heap[K,V] {
       builder.append("key: " + _key + "value: "+value)
       builder.append(" lostChild: " + lostChild)
       builder.append(" left: " + left.key)
-      builder.append(" right: " + right.key)
-      if (parent != null) {
-        builder.append(" parent: " + parent.key)
+      builder.append(" right: " + _right.key)
+      if (_parent != null) {
+        builder.append(" parent: " + _parent.key)
       }
-      if (child != null) {
-        builder.append(" child: " + child.key)
+      if (_child != null) {
+        builder.append(" child: " + _child.key)
       }
       builder.append(" childCount: " + childCount)
       builder.append(" inHeap:" + inHeap)
@@ -301,19 +301,21 @@ class FibonacciHeap[K,V](comparator:HeapOrdering[K]) extends Heap[K,V] {
     }
 
     private[FibonacciHeap] def clean():Unit = {
-      right = this
+      _right = this
       left = this
-      parent = null
-      child = null
+      _parent = null
+      _child = null
       childCount = 0
       lostChild = false
       _key = comparator.AlwaysTop
       inHeap = false
     }
 
-    def key:K = {
-      _key
-    }
+    private[FibonacciHeap] def child = _child
+    private[FibonacciHeap] def right = _right
+    private[FibonacciHeap] def parent = _parent
+
+    def key:K = _key
 
     def key_(newKey:K):Unit = {
       FibonacciHeap.this.changeKey(newKey,this)
@@ -341,27 +343,27 @@ class FibonacciHeap[K,V](comparator:HeapOrdering[K]) extends Heap[K,V] {
     }
 
     private[FibonacciHeap] def release():Unit = {
-      left.right = right
-      right.left = left
+      left._right = _right
+      _right.left = left
     }
 
     private[FibonacciHeap] def cat(node: FibonacciHeapMember): Unit = {
       node.left = this
-      node.right = right
-      right = node
-      node.right.left = node
+      node._right = _right
+      _right = node
+      node._right.left = node
     }
 
     private[FibonacciHeap] def addChild(childNode: FibonacciHeapMember): Unit = {
-      if (child == null) {
-        child = childNode
-        childNode.right = childNode
+      if (_child == null) {
+        _child = childNode
+        childNode._right = childNode
         childNode.left = childNode
       }
       else {
-        child.cat(childNode)
+        _child.cat(childNode)
       }
-      childNode.parent = this
+      childNode._parent = this
       childCount += 1
       childNode.lostChild = false
     }
@@ -369,19 +371,15 @@ class FibonacciHeap[K,V](comparator:HeapOrdering[K]) extends Heap[K,V] {
     private[FibonacciHeap] def releaseChild(childNode: FibonacciHeapMember): Unit = {
       childNode.release()
       childCount = childCount - 1
-      if (child == childNode) {
-        child = childNode.right
+      if (_child == childNode) {
+        _child = childNode._right
       }
       if (childCount == 0) {
-        child = null
+        _child = null
       }
-      childNode.parent = null
+      childNode._parent = null
       childNode.lostChild = true
     }
 
   }
-}
-
-object FibonacciHeap {
-
 }
