@@ -55,7 +55,7 @@ final class IndexedSet[A](outerSeq:IndexedSeq[A])
 object IndexedSet extends IterableFactory[IndexedSet] {
   //  def apply[A](traversable:Traversable[A]) = IndexedSeq(traversable.to[Seq].distinct)
 
-  def from[A](source: IterableOnce[A]): IndexedSet[A] = new IndexedSet[A](IndexedSeq.from(source))
+  def from[A](source: IterableOnce[A]): IndexedSet[A] = new IndexedSet[A](IndexedSeq.from(source).distinct)
 
   def empty[A]: IndexedSet[A] = new IndexedSet[A](IndexedSeq.empty)
 
