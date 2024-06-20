@@ -121,6 +121,24 @@ class FewestNodesTest extends FunSuite {
     assertEquals(Set.from(labels.map(e => (e._1,e._2,e._3.get.pathWeight))), expectedArcs)
   }
 
+  test("Dijkstra's algorithm should produce the correct label graph for an unlabeled Digraph with a specified semiring") {
+
+    import net.walend.disentangle.graph.semiring.DigraphSemiringAlgorithms.allPairsLeastPaths
+    import net.walend.disentangle.graph.AdjacencyDigraph
+
+    val edges: Iterable[(String, String)] = testDigraph.edges.map(e => e._1 -> e._2)
+    val digraph: AdjacencyDigraph[String] = AdjacencyDigraph(edges, testDigraph.nodes.toSeq)
+
+    def labelForEdge(from:String,to:String):Int = {
+      if(from == to) 0
+      else 1
+    }
+    val labels: Seq[(String, String, Int)] = digraph.allPairsLeastPaths(FewestNodes,labelForEdge)
+
+    assertEquals(labels.size, expectedArcs.size)
+    assertEquals(Set.from(labels), expectedArcs)
+  }
+
   val expectedBetweenness:Map[String,Double] = Map(
     A -> 0.0,
     B -> 6.5,

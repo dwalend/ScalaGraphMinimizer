@@ -20,14 +20,17 @@ object DigraphSemiringAlgorithms {
         case _ => Dijkstra.allPairsShortestPaths(unitEdgeValues,self.nodes.toSeq)
       }
     }
-     /*
+
     def allPairsLeastPaths[SemiringLabel, Key](support: SemiringSupport[SemiringLabel, Key],
                                                labelForEdge: (Node, Node) => SemiringLabel): Seq[(Node, Node, SemiringLabel)] = {
       def labelForEdgeWithUnit(from: Node, to: Node, edge: Unit): SemiringLabel = labelForEdge(from, to)
 
-      Dijkstra.allPairsLeastPaths(unitEdgeValues, support, labelForEdgeWithUnit, self.nodes.asSeq)
+      self match {
+        case indexed: IndexedGraph[Node] => Dijkstra.allPairsLeastPaths(unitEdgeValues, support, labelForEdgeWithUnit, indexed.nodes.asSeq)
+        case _ => Dijkstra.allPairsLeastPaths(unitEdgeValues, support, labelForEdgeWithUnit, self.nodes.toSeq)
+      }
     }
-
+    /*
     def allLeastPathsAndBetweenness[CoreLabel, Key](coreSupport: SemiringSupport[CoreLabel, Key] = FewestNodes,
                                                     labelForEdge: (Node, Node) => CoreLabel = FewestNodes.edgeToLabelConverter): (IndexedSeq[(Node, Node, Option[BrandesSteps[Node, CoreLabel]])], Map[Node, Double]) = {
       Brandes.allLeastPathsAndBetweenness(unitEdgeValues, self.nodes.asSeq, coreSupport, labelForEdge)
