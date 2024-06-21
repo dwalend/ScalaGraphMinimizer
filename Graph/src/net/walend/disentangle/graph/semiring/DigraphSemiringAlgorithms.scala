@@ -3,7 +3,7 @@ package net.walend.disentangle.graph.semiring
 import net.walend.disentangle.graph.semiring.Brandes.BrandesSteps
 import net.walend.disentangle.graph.{Digraph, IndexedGraph, Tuple2Digraph}
 
-import scala.collection.immutable
+import scala.collection.immutable.Iterable
 
 /**
  * @since v0.3.0
@@ -30,12 +30,22 @@ object DigraphSemiringAlgorithms {
         case _ => Dijkstra.allPairsLeastPaths(unitEdgeValues, support, labelForEdgeWithUnit, self.nodes.toSeq)
       }
     }
-    /*
-    def allLeastPathsAndBetweenness[CoreLabel, Key](coreSupport: SemiringSupport[CoreLabel, Key] = FewestNodes,
-                                                    labelForEdge: (Node, Node) => CoreLabel = FewestNodes.edgeToLabelConverter): (IndexedSeq[(Node, Node, Option[BrandesSteps[Node, CoreLabel]])], Map[Node, Double]) = {
-      Brandes.allLeastPathsAndBetweenness(unitEdgeValues, self.nodes.asSeq, coreSupport, labelForEdge)
+
+    def allShortestPathsAndBetweenness(): (IndexedSeq[(Node, Node, Option[BrandesSteps[Node, FewestNodes.Label]])], Map[Node, Double]) = {
+      def brandesDefaultLabelForEdge(from: Node, to: Node): FewestNodes.Label = FewestNodes.edgeToLabelConverter(from, to, ())
+
+      allLeastPathsAndBetweenness(FewestNodes,brandesDefaultLabelForEdge)
     }
 
-      */
+    def allLeastPathsAndBetweenness[CoreLabel, Key](coreSupport: SemiringSupport[CoreLabel, Key],
+                                                    labelForEdge: (Node, Node) => CoreLabel): (IndexedSeq[(Node, Node, Option[BrandesSteps[Node, CoreLabel]])], Map[Node, Double]) = {
+
+      def labelForEdgeWithUnit(from: Node, to: Node, edge: Unit): coreSupport.Label = labelForEdge(from, to)
+
+      self match {
+        case indexed: IndexedGraph[Node] => Brandes.allLeastPathsAndBetweenness(unitEdgeValues, indexed.nodes.asSeq, coreSupport, labelForEdgeWithUnit)
+        case _ => Brandes.allLeastPathsAndBetweenness(unitEdgeValues, self.nodes.toSeq, coreSupport, labelForEdgeWithUnit)
+      }
+    }
   }
 }

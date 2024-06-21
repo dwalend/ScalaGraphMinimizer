@@ -156,19 +156,33 @@ class FewestNodesTest extends FunSuite {
 
     assertEquals(labelGraphAndBetweenness._2, expectedBetweenness)
   }
-/*
-  "Parallel Dijkstra for Enron data" should "be calculated" in {
 
-    import scala.io.Source
-    import scala.pickling._
-    import scala.pickling.json._
+  test("Brandes' algorithm should produce both the correct label graph and betweenness for a digraph without labels") {
 
-    val support = FewestNodes
+    import net.walend.disentangle.graph.semiring.DigraphSemiringAlgorithms.allShortestPathsAndBetweenness
+    import net.walend.disentangle.graph.AdjacencyDigraph
 
-    val fileContents = Source.fromURL(getClass.getResource("/Enron2000Apr.json")).mkString
-    val edges = JSONPickle(fileContents).unpickle[Seq[(String,String,Int)]]
+    val edges: Iterable[(String, String)] = testDigraph.edges.map(e => e._1 -> e._2)
+    val digraph: AdjacencyDigraph[String] = AdjacencyDigraph(edges, testDigraph.nodes.toSeq)
 
-    val labels = Dijkstra.parAllPairsLeastPaths(edges, FewestNodes, FewestNodes.convertEdgeToLabel, Seq.empty)
+    val labelGraphAndBetweenness = digraph.allShortestPathsAndBetweenness()
+
+    assertEquals(labelGraphAndBetweenness._2, expectedBetweenness)
   }
-*/
+
+  /*
+    "Parallel Dijkstra for Enron data" should "be calculated" in {
+
+      import scala.io.Source
+      import scala.pickling._
+      import scala.pickling.json._
+
+      val support = FewestNodes
+
+      val fileContents = Source.fromURL(getClass.getResource("/Enron2000Apr.json")).mkString
+      val edges = JSONPickle(fileContents).unpickle[Seq[(String,String,Int)]]
+
+      val labels = Dijkstra.parAllPairsLeastPaths(edges, FewestNodes, FewestNodes.convertEdgeToLabel, Seq.empty)
+    }
+  */
 }
