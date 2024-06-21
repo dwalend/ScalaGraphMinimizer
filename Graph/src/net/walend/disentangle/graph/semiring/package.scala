@@ -12,7 +12,7 @@ package net.walend.disentangle.graph
  */
 package object semiring
 
-//todo add extensions for algorithms for Digraphs and Undirected graphs without labels
+//todo add extensions for algorithms for Undirected graphs without labels
 
 //todo pathcount as a decorator semiring
 //todo core-and-many-decorator semiring

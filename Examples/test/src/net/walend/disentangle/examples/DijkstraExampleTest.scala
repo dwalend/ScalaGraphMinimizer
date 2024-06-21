@@ -15,7 +15,7 @@ class DijkstraExampleTest extends FunSuite {
 
     val simpleShortPathLabels = DijkstraExample.simpleShortPathLabels
 
-//todo    val simpleShortPathLabelsFromPar = DijkstraExample.simpleShortPathLabelsFromPar
+    val simpleShortPathLabelsFromPar = DijkstraExample.simpleShortPathLabelsFromPar
 
     val labelDigraph = DijkstraExample.labelDigraph
 
